@@ -28,10 +28,10 @@ tempalteless, it assumes all the contents of each field are strings.
 
 <!-- markdownlint-disable MD013 -->
 
-| Output Name  | Description                                                                                                                                                                                                                              |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| issue-number | The issue number that was found, if an issue was fetched/searched for                                                                                                                                                                    |
-| `*`          | The headings are slugified (lowercased, alphanumeric chars only) before having its content set as the output. For example, if you had the heading `Hello World`, you can expect the output `hello-world` to have been set from this step |
+| Output Name    | Description                                                                                                                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `issue-number` | The issue number that was found, if an issue was fetched/searched for                                                                                                                                                                    |
+| `*`            | The headings are slugified (lowercased, alphanumeric chars only) before having its content set as the output. For example, if you had the heading `Hello World`, you can expect the output `hello-world` to have been set from this step |
 
 <!-- markdownlint-enable MD013 -->
 
