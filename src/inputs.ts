@@ -32,6 +32,12 @@ export const bodyInput = (): string =>
     trimWhitespace: true
   })
 
+export const failOnErrorInput = (): boolean =>
+  core.getInput('fail-on-error', {
+    required: false,
+    trimWhitespace: true
+  }) === 'true'
+
 export const repository = (): Repository => {
   const input =
     repositoryInput() || `${context.repo.owner}/${context.repo.repo}`
