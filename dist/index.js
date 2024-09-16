@@ -38329,7 +38329,7 @@ const issueTitleInput = () => core.getInput('issue-title', {
     trimWhitespace: true
 });
 exports.issueTitleInput = issueTitleInput;
-const githubTokenInput = () => core.getInput('github-token', {
+const githubTokenInput = () => core.getInput('token', {
     required: false,
     trimWhitespace: true
 });

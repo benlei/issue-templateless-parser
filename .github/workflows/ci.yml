@@ -94,10 +94,19 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Test Local Action - Issue Number
         id: test
         uses: ./
         with:
+          repository: benlei/internal-issues
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: 3
 
       - name: Outputs are not correct
@@ -117,10 +126,19 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Test Local Action - Issue Title
         id: test
         uses: ./
         with:
+          repository: benlei/internal-issues
+          token: ${{ steps.app-token.outputs.token }}
           issue-title: Issue with example contents
 
       - name: Outputs are not correct

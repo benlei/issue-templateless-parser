@@ -21,7 +21,7 @@ export const issueTitleInput = (): string =>
   })
 
 export const githubTokenInput = (): string =>
-  core.getInput('github-token', {
+  core.getInput('token', {
     required: false,
     trimWhitespace: true
   })
