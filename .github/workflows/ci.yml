@@ -131,3 +131,18 @@ jobs:
           steps.test.outputs.something-else-123 != '1235768457246' ||
           steps.test.outputs.third-heading-over-here != 'Hello World'
         run: exit 1
+
+  test-action-dont-fail:
+    name: GitHub Actions Test - Don't Fail on Error
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action - Don't Fail On Error
+        id: test
+        uses: ./
+        with:
+          issue-number: 0
+          fail-on-error: false

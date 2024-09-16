@@ -38311,7 +38311,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.issueNumber = exports.repository = exports.bodyInput = exports.githubTokenInput = exports.issueTitleInput = exports.issueNumberInput = exports.repositoryInput = void 0;
+exports.issueNumber = exports.repository = exports.failOnErrorInput = exports.bodyInput = exports.githubTokenInput = exports.issueTitleInput = exports.issueNumberInput = exports.repositoryInput = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const repositoryInput = () => core.getInput('repository', {
@@ -38339,6 +38339,11 @@ const bodyInput = () => core.getInput('body', {
     trimWhitespace: true
 });
 exports.bodyInput = bodyInput;
+const failOnErrorInput = () => core.getInput('fail-on-error', {
+    required: false,
+    trimWhitespace: true
+}) === 'true';
+exports.failOnErrorInput = failOnErrorInput;
 const repository = () => {
     const input = (0, exports.repositoryInput)() || `${github_1.context.repo.owner}/${github_1.context.repo.repo}`;
     const [owner, repo] = input.split('/', 2);
@@ -38452,7 +38457,7 @@ async function run() {
     }
     catch (error) {
         // Fail the workflow run if an error occurs
-        if (error instanceof Error)
+        if ((0, inputs_1.failOnErrorInput)() && error instanceof Error)
             core.setFailed(error.message);
     }
 }

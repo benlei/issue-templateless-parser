@@ -14,13 +14,14 @@ templateless, it assumes all the contents of each field are strings.
 
 <!-- markdownlint-disable MD013 -->
 
-| Input Name     | Required | Default                    | Description                                                                                                                                        |
-| -------------- | -------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `repository`   | no       | `${{ github.repository }}` | The repository to find issue in, if trying to fetch an issue's body                                                                                |
-| `github-token` | no       | `${{ github.token }}`      | The GitHub token to use for searching for issue                                                                                                    |
-| `body`         | no       | `''`                       | The body to parse                                                                                                                                  |
-| `issue-number` | no       | `''`                       | The issue number to try to fetch the body from for parsing. Ignored if `body` input is specified/has content.                                      |
-| `issue-title`  | no       | `''`                       | The exact issue title to search for to try to fetch the body from for parsing. Ignored if `body` or `issue-number` input is specified/has content. |
+| Input Name      | Required | Default                    | Description                                                                                                                                        |
+| --------------- | -------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `repository`    | no       | `${{ github.repository }}` | The repository to find issue in, if trying to fetch an issue's body                                                                                |
+| `github-token`  | no       | `${{ github.token }}`      | The GitHub token to use for searching for issue                                                                                                    |
+| `body`          | no       | `''`                       | The body to parse                                                                                                                                  |
+| `issue-number`  | no       | `''`                       | The issue number to try to fetch the body from for parsing. Ignored if `body` input is specified/has content.                                      |
+| `issue-title`   | no       | `''`                       | The exact issue title to search for to try to fetch the body from for parsing. Ignored if `body` or `issue-number` input is specified/has content. |
+| `fail-on-error` | no       | `true`                     | Whether or not to fail action if any error occurs                                                                                                  |
 
 <!-- markdownlint-enable MD013 -->
 

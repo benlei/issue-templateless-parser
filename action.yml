@@ -31,6 +31,10 @@ inputs:
   body:
     description: 'The body to parse for output variables'
     required: false
+  fail-on-error:
+    description: 'Whether to fail the action if any error occurs'
+    default: 'true'
+    required: false
 
 # Define your outputs here.
 outputs:

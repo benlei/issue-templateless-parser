@@ -50,6 +50,7 @@ describe('action', () => {
     jest.spyOn(inputs, 'bodyInput').mockReturnValue('')
     jest.spyOn(inputs, 'issueNumberInput').mockReturnValue('')
     jest.spyOn(inputs, 'issueTitleInput').mockReturnValue('')
+    jest.spyOn(inputs, 'failOnErrorInput').mockReturnValue(true)
   })
 
   it('should be able to parse body input', async () => {
@@ -133,5 +134,14 @@ describe('action', () => {
     // no inputs should have raised an exception
     await main.run()
     expect(setFailedMock).toHaveBeenCalled()
+  })
+
+  it('should not fail action when fail-on-error is set to false', async () => {
+    jest.spyOn(inputs, 'failOnErrorInput').mockReturnValue(false)
+
+    // no inputs should have raised an exception
+    await main.run()
+
+    expect(setFailedMock).not.toHaveBeenCalled()
   })
 })
