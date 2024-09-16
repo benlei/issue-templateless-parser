@@ -8,7 +8,7 @@
 
 This action will try to parse a `body`, or an issue's body, for fields as if it
 were created by an issue template. Keep in mind that because this is
-tempalteless, it assumes all the contents of each field are strings.
+templateless, it assumes all the contents of each field are strings.
 
 ## Inputs
 
