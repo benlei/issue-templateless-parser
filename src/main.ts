@@ -1,5 +1,14 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import slugify from 'slugify'
+import { getIssue } from './github'
+import {
+  bodyInput,
+  issueNumber,
+  issueNumberInput,
+  issueTitleInput
+} from './inputs'
+import { findIssueNumberByTitle } from './issue'
+import { parseBodyFields } from './parser'
 
 /**
  * The main function for the action.
@@ -7,18 +16,36 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    let issueBody = ''
+    if (bodyInput()) {
+      issueBody = bodyInput()
+    } else if (issueNumberInput()) {
+      issueBody = (await getIssue(issueNumber())).data.body ?? ''
+      core.setOutput('issue-number', issueNumber().toString())
+    } else if (issueTitleInput()) {
+      const foundIssueNumber = await findIssueNumberByTitle(issueTitleInput())
+      if (!foundIssueNumber) {
+        throw new Error(`Issue with title "${issueTitleInput()}" not found`)
+      }
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+      core.info(`Found issue number ${foundIssueNumber}`)
+      issueBody = (await getIssue(foundIssueNumber)).data.body ?? ''
+      core.setOutput('issue-number', foundIssueNumber.toString())
+    } else {
+      throw new Error(
+        'One of body, issue-number, or issue-title must be provided'
+      )
+    }
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    for (const field of parseBodyFields(issueBody)) {
+      const outputName = slugify(field.key, {
+        lower: true,
+        strict: true,
+        trim: true
+      })
+      core.info(`Setting output ${outputName} for heading ${field.key}`)
+      core.setOutput(outputName, field.value)
+    }
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
