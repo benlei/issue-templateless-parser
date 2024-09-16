@@ -45,7 +45,7 @@ jobs:
         run: npm run ci-test
 
   test-action-body:
-    name: GitHub Actions Test
+    name: GitHub Actions Test Body Parsing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -87,7 +87,7 @@ jobs:
         run: exit 1
 
   test-action-issue-number:
-    name: GitHub Actions Test
+    name: GitHub Actions Test Fetch Issue by Issue Number Parsing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -110,7 +110,7 @@ jobs:
         run: exit 1
 
   test-action-issue-title:
-    name: GitHub Actions Test
+    name: GitHub Actions Test Fetch Issue by Issue Title Parsing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
