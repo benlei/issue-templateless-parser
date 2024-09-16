@@ -38315,7 +38315,7 @@ exports.issueNumber = exports.repository = exports.bodyInput = exports.githubTok
 const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const repositoryInput = () => core.getInput('repository', {
-    required: true,
+    required: false,
     trimWhitespace: true
 });
 exports.repositoryInput = repositoryInput;
@@ -38325,16 +38325,17 @@ const issueNumberInput = () => core.getInput('issue-number', {
 });
 exports.issueNumberInput = issueNumberInput;
 const issueTitleInput = () => core.getInput('issue-title', {
-    required: true,
+    required: false,
     trimWhitespace: true
 });
 exports.issueTitleInput = issueTitleInput;
 const githubTokenInput = () => core.getInput('github-token', {
-    required: false
+    required: false,
+    trimWhitespace: true
 });
 exports.githubTokenInput = githubTokenInput;
 const bodyInput = () => core.getInput('body', {
-    required: true,
+    required: false,
     trimWhitespace: true
 });
 exports.bodyInput = bodyInput;

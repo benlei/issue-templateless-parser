@@ -4,7 +4,7 @@ import { Repository } from './types'
 
 export const repositoryInput = (): string =>
   core.getInput('repository', {
-    required: true,
+    required: false,
     trimWhitespace: true
   })
 
@@ -16,18 +16,19 @@ export const issueNumberInput = (): string =>
 
 export const issueTitleInput = (): string =>
   core.getInput('issue-title', {
-    required: true,
+    required: false,
     trimWhitespace: true
   })
 
 export const githubTokenInput = (): string =>
   core.getInput('github-token', {
-    required: false
+    required: false,
+    trimWhitespace: true
   })
 
 export const bodyInput = (): string =>
   core.getInput('body', {
-    required: true,
+    required: false,
     trimWhitespace: true
   })
 
