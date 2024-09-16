@@ -1,23 +1,44 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Issue Templateless Parser'
+description:
+  'A GitHub Action that parses the body of an issue for output variables,
+  without an issue template file'
+author: 'benlei'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
+  icon: 'play'
   color: 'red'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
-    required: true
-    default: '1000'
+  repository:
+    description:
+      'The repository to fetch the issue body from. For example,
+      benlei/test-action'
+    default: ${{ github.repository }}
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
+  issue-number:
+    description: 'The number of the issue to get the body from'
+    required: false
+  issue-title:
+    description:
+      'The exact title of the issue to get the body from, if issue-number is not
+      specified'
+    required: false
+  body:
+    description: 'The body to parse for output variables'
+    required: false
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  generic: # output will be available to future steps
+    description:
+      'This command will have generic output variables based the issue body'
+  issue-number:
+    description: 'The issue number that was found, if it was found'
 
 runs:
   using: node20

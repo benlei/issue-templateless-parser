@@ -1,16 +1,16 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "issue-templateless-parser",
+  "description": "Parses fields of an issue that may or may not have been created via an Issue Template, but without the template, based on the headings",
+  "version": "1.0.0",
+  "author": "benlei",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/benlei/issue-templateless-parser",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/benlei/issue-templateless-parser.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/benlei/issue-templateless-parser/issues"
   },
   "keywords": [
     "actions",
@@ -66,12 +66,18 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1"
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@octokit/core": "^5.2.0",
+    "@octokit/plugin-retry": "^6.0.1",
+    "remarkable": "^2.0.1",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.4",
+    "@types/remarkable": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",
     "@vercel/ncc": "^0.38.1",

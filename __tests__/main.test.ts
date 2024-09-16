@@ -7,83 +7,131 @@
  */
 
 import * as core from '@actions/core'
+import * as github from '../src/github'
+import * as inputs from '../src/inputs'
+import * as issue from '../src/issue'
 import * as main from '../src/main'
 
-// Mock the action's main function
-const runMock = jest.spyOn(main, 'run')
-
-// Other utilities
-const timeRegex = /^\d{2}:\d{2}:\d{2}/
-
 // Mock the GitHub Actions core library
-let debugMock: jest.SpiedFunction<typeof core.debug>
-let errorMock: jest.SpiedFunction<typeof core.error>
-let getInputMock: jest.SpiedFunction<typeof core.getInput>
 let setFailedMock: jest.SpiedFunction<typeof core.setFailed>
 let setOutputMock: jest.SpiedFunction<typeof core.setOutput>
+
+const BodyResponse =
+  `
+### Field 1
+
+thefield1value with **bold** and *italic* text
+
+### Another Field Name
+
+Some value 1234
+
+> Some Quoted Value
+
+* list
+* of
+* items
+
+Blah
+`.trim() +
+  '\n\n```yaml\nheres a code block\n### not a real heading\n\nfoobar\n```\n\n' +
+  `
+### Final Heading
+
+Final value`.trim()
 
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    debugMock = jest.spyOn(core, 'debug').mockImplementation()
-    errorMock = jest.spyOn(core, 'error').mockImplementation()
-    getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
     setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
     setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+
+    jest.spyOn(inputs, 'bodyInput').mockReturnValue('')
+    jest.spyOn(inputs, 'issueNumberInput').mockReturnValue('')
+    jest.spyOn(inputs, 'issueTitleInput').mockReturnValue('')
   })
 
-  it('sets the time output', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'milliseconds':
-          return '500'
-        default:
-          return ''
-      }
-    })
-
+  it('should be able to parse body input', async () => {
+    jest.spyOn(inputs, 'bodyInput').mockReturnValue(BodyResponse)
     await main.run()
-    expect(runMock).toHaveReturned()
 
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
-    expect(debugMock).toHaveBeenNthCalledWith(
-      2,
-      expect.stringMatching(timeRegex)
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'field-1',
+      'thefield1value with **bold** and *italic* text'
     )
-    expect(debugMock).toHaveBeenNthCalledWith(
-      3,
-      expect.stringMatching(timeRegex)
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'another-field-name',
+      'Some value 1234\n\n> Some Quoted Value\n\n* list\n* of\n* items\n\nBlah\n\n```yaml\nheres a code block\n### not a real heading\n\nfoobar\n```'
     )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
-    )
-    expect(errorMock).not.toHaveBeenCalled()
+    expect(setOutputMock).toHaveBeenCalledWith('final-heading', 'Final value')
   })
 
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
-        default:
-          return ''
-      }
-    })
+  it('should be able to parse issue number input', async () => {
+    jest.spyOn(inputs, 'issueNumberInput').mockReturnValue('123')
+    jest.spyOn(inputs, 'issueNumber').mockReturnValue(123)
+    jest
+      .spyOn(github, 'getIssue')
+      .mockResolvedValue({ data: { number: 123, body: BodyResponse } })
 
     await main.run()
-    expect(runMock).toHaveReturned()
 
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'milliseconds not a number'
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'field-1',
+      'thefield1value with **bold** and *italic* text'
     )
-    expect(errorMock).not.toHaveBeenCalled()
+  })
+
+  it('should be able to parse issue title input', async () => {
+    jest.spyOn(inputs, 'issueTitleInput').mockReturnValue('My Title')
+    jest.spyOn(issue, 'findIssueNumberByTitle').mockResolvedValue(123)
+    jest
+      .spyOn(github, 'getIssue')
+      .mockResolvedValue({ data: { number: 123, body: BodyResponse } })
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'field-1',
+      'thefield1value with **bold** and *italic* text'
+    )
+  })
+
+  it('should prioritize body input over the other inputs', async () => {
+    const bodyCall = jest
+      .spyOn(inputs, 'bodyInput')
+      .mockReturnValue(BodyResponse)
+    const issueNumberInputCall = jest
+      .spyOn(inputs, 'issueNumberInput')
+      .mockReturnValue('123')
+    const issueTitleCall = jest
+      .spyOn(inputs, 'issueTitleInput')
+      .mockReturnValue('My Title')
+
+    await main.run()
+
+    expect(bodyCall).toHaveBeenCalled()
+    expect(issueNumberInputCall).not.toHaveBeenCalled()
+    expect(issueTitleCall).not.toHaveBeenCalled()
+  })
+
+  it('should prioritize issue number over issue title', async () => {
+    const issueNumberInputCall = jest
+      .spyOn(inputs, 'issueNumberInput')
+      .mockReturnValue('123')
+    const issueTitleCall = jest
+      .spyOn(inputs, 'issueTitleInput')
+      .mockReturnValue('My Title')
+
+    await main.run()
+
+    expect(issueNumberInputCall).toHaveBeenCalled()
+    expect(issueTitleCall).not.toHaveBeenCalled()
+  })
+
+  it('should fail action if an error was encountered', async () => {
+    // no inputs should have raised an exception
+    await main.run()
+    expect(setFailedMock).toHaveBeenCalled()
   })
 })

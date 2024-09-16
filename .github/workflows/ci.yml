@@ -44,21 +44,90 @@ jobs:
         id: npm-ci-test
         run: npm run ci-test
 
-  test-action:
-    name: GitHub Actions Test
+  test-action-body:
+    name: GitHub Actions Test Body Parsing
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
-        id: test-action
+      - name: Test Local Action - Body
+        id: test
+        uses: ./
+        env:
+          ISSUE_BODY: |
+            ### Issue Title
+
+            This is the body of the issue
+
+            ```yaml
+            time: 10
+            ```
+
+            And that's about it
+
+            ### Something Else 123
+
+            1235768457246
+
+            ### Third Heading over here...
+
+            Hello World
+        with:
+          body: ${{ env.ISSUE_BODY }}
+
+      - name: Outputs are not correct
+        if: |
+          steps.test.outputs.issue-number != '' ||
+          !contains(steps.test.outputs.issue-title, 'time: 10') ||
+          !contains(steps.test.outputs.issue-title, 'about it') ||
+          steps.test.outputs.something-else-123 != '1235768457246' ||
+          steps.test.outputs.third-heading-over-here != 'Hello World'
+        run: exit 1
+
+  test-action-issue-number:
+    name: GitHub Actions Test Fetch Issue by Issue Number Parsing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action - Issue Number
+        id: test
         uses: ./
         with:
-          milliseconds: 2000
+          issue-number: 3
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+      - name: Outputs are not correct
+        if: |
+          steps.test.outputs.issue-number != '3' ||
+          !contains(steps.test.outputs.issue-title, 'time: 10') ||
+          !contains(steps.test.outputs.issue-title, 'about it') ||
+          steps.test.outputs.something-else-123 != '1235768457246' ||
+          steps.test.outputs.third-heading-over-here != 'Hello World'
+        run: exit 1
+
+  test-action-issue-title:
+    name: GitHub Actions Test Fetch Issue by Issue Title Parsing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action - Issue Title
+        id: test
+        uses: ./
+        with:
+          issue-title: Issue with example contents
+
+      - name: Outputs are not correct
+        if: |
+          steps.test.outputs.issue-number != '3' ||
+          !contains(steps.test.outputs.issue-title, 'time: 10') ||
+          !contains(steps.test.outputs.issue-title, 'about it') ||
+          steps.test.outputs.something-else-123 != '1235768457246' ||
+          steps.test.outputs.third-heading-over-here != 'Hello World'
+        run: exit 1
