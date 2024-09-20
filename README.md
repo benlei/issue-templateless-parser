@@ -1,4 +1,4 @@
-# Create a GitHub Action Using TypeScript
+# benlei/issue-templateless-parser
 
 [![GitHub Super-Linter](https://github.com/benlei/issue-templateless-parser/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/benlei/issue-templateless-parser/actions/workflows/ci.yml/badge.svg)
