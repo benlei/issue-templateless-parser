@@ -1,4 +1,4 @@
-name: 'Issue Templateless Parser'
+name: 'Parse Issue Templateless'
 description:
   'A GitHub Action that parses the body of an issue for output variables,
   without an issue template file'
@@ -7,7 +7,7 @@ author: 'benlei'
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
   icon: 'play'
-  color: 'red'
+  color: 'green'
 
 # Define your inputs here.
 inputs:

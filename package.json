@@ -1,7 +1,7 @@
 {
   "name": "parse-issue-templateless",
   "description": "Parses fields of an issue that may or may not have been created via an Issue Template, but without the template, based on the headings",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "benlei",
   "private": true,
   "homepage": "https://github.com/benlei/parse-issue-templateless",
