@@ -1,9 +1,9 @@
-# benlei/issue-templateless-parser
+# benlei/parse-issue-templateless
 
-[![GitHub Super-Linter](https://github.com/benlei/issue-templateless-parser/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/benlei/issue-templateless-parser/actions/workflows/ci.yml/badge.svg)
-[![Check dist/](https://github.com/benlei/issue-templateless-parser/actions/workflows/check-dist.yml/badge.svg)](https://github.com/benlei/issue-templateless-parser/actions/workflows/check-dist.yml)
-[![CodeQL](https://github.com/benlei/issue-templateless-parser/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/benlei/issue-templateless-parser/actions/workflows/codeql-analysis.yml)
+[![GitHub Super-Linter](https://github.com/benlei/parse-issue-templateless/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
+![CI](https://github.com/benlei/parse-issue-templateless/actions/workflows/ci.yml/badge.svg)
+[![Check dist/](https://github.com/benlei/parse-issue-templateless/actions/workflows/check-dist.yml/badge.svg)](https://github.com/benlei/parse-issue-templateless/actions/workflows/check-dist.yml)
+[![CodeQL](https://github.com/benlei/parse-issue-templateless/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/benlei/parse-issue-templateless/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
 This action will try to parse a `body`, or an issue's body, for fields as if it
@@ -45,7 +45,7 @@ templateless, it assumes all the contents of each field are strings.
 ````yaml
 - name: Test Local Action - Body
   id: test
-  uses: benlei/issue-templateless-parser@v1
+  uses: benlei/parse-issue-templateless@v1
   env:
     ISSUE_BODY: |
       ### Issue Title
@@ -87,7 +87,7 @@ templateless, it assumes all the contents of each field are strings.
 ```yaml
 - name: Test Local Action - Issue Number
   id: test
-  uses: benlei/issue-templateless-parser@v1
+  uses: benlei/parse-issue-templateless@v1
   with:
     issue-number: 3
 
@@ -110,7 +110,7 @@ templateless, it assumes all the contents of each field are strings.
 ```yaml
 - name: Test Local Action - Issue Title
   id: test
-  uses: benlei/issue-templateless-parser@v1
+  uses: benlei/parse-issue-templateless@v1
   with:
     issue-title: Issue with example contents
 
