@@ -3,7 +3,9 @@ import { Field } from './types'
 
 export const parseBodyFields = (body: string): Field[] => {
   const isHeading = (node: Remarkable.Token): boolean =>
-    node.type === 'heading_open' && node.level === 0
+    node.type === 'heading_open' &&
+    node.level === 0 &&
+    (node as Remarkable.HeadingOpenToken).hLevel === 3
 
   // content is always the node after the current
   const determineHeadingName = (

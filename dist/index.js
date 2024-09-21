@@ -38474,7 +38474,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseBodyFields = void 0;
 const remarkable_1 = __nccwpck_require__(191);
 const parseBodyFields = (body) => {
-    const isHeading = (node) => node.type === 'heading_open' && node.level === 0;
+    const isHeading = (node) => node.type === 'heading_open' &&
+        node.level === 0 &&
+        node.hLevel === 3;
     // content is always the node after the current
     const determineHeadingName = (nodes, headingOpenIndex
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
