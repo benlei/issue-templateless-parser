@@ -33,28 +33,6 @@ export const openIssuesIterator =
       state: 'open'
     })
 
-export const createIssue = async (
-  title: string,
-  body: string
-): Promise<IssueResponse> =>
-  await octokit().rest.issues.create({
-    ...repository(),
-    title,
-    body
-  })
-
-export const updateIssue = async (
-  issueNumber: number,
-  title: string,
-  body: string
-): Promise<IssueResponse> =>
-  await octokit().rest.issues.update({
-    ...repository(),
-    issue_number: issueNumber,
-    title,
-    body
-  })
-
 export const getIssue = async (issueNumber: number): Promise<IssueResponse> =>
   await octokit().rest.issues.get({
     ...repository(),

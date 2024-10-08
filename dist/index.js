@@ -38240,7 +38240,7 @@ function wrappy (fn, cb) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getIssue = exports.updateIssue = exports.createIssue = exports.openIssuesIterator = void 0;
+exports.getIssue = exports.openIssuesIterator = void 0;
 const github_1 = __nccwpck_require__(5438);
 const utils_1 = __nccwpck_require__(3030);
 const plugin_retry_1 = __nccwpck_require__(6298);
@@ -38262,19 +38262,6 @@ const openIssuesIterator = () => octokit().paginate.iterator('GET /repos/{owner}
     state: 'open'
 });
 exports.openIssuesIterator = openIssuesIterator;
-const createIssue = async (title, body) => await octokit().rest.issues.create({
-    ...(0, inputs_1.repository)(),
-    title,
-    body
-});
-exports.createIssue = createIssue;
-const updateIssue = async (issueNumber, title, body) => await octokit().rest.issues.update({
-    ...(0, inputs_1.repository)(),
-    issue_number: issueNumber,
-    title,
-    body
-});
-exports.updateIssue = updateIssue;
 const getIssue = async (issueNumber) => await octokit().rest.issues.get({
     ...(0, inputs_1.repository)(),
     issue_number: issueNumber
