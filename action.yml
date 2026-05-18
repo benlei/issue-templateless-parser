@@ -45,5 +45,5 @@ outputs:
     description: 'The issue number that was found, if it was found'
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js

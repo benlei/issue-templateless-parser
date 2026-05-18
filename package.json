@@ -1,7 +1,7 @@
 {
   "name": "parse-issue-templateless",
   "description": "Parses fields of an issue that may or may not have been created via an Issue Template, but without the template, based on the headings",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "author": "benlei",
   "private": true,
   "homepage": "https://github.com/benlei/parse-issue-templateless",
@@ -21,7 +21,7 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=21"
+    "node": ">=24"
   },
   "scripts": {
     "bundle": "npm run format:write && npm run package",
